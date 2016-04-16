@@ -55,16 +55,20 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+
+// 读取整个文件 CoreData.xcdatamodeld
 - (NSManagedObjectModel *)managedObjectModel {
     // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
+//
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"CoreData" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
-
+// CoreData 本身也是以sqlite XML json 形式存储
+// 中转成对象操作的方法
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it.
     if (_persistentStoreCoordinator != nil) {
@@ -93,7 +97,8 @@
     return _persistentStoreCoordinator;
 }
 
-
+//数据操作的对象
+// 查询 删除  保存
 - (NSManagedObjectContext *)managedObjectContext {
     // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
     if (_managedObjectContext != nil) {
@@ -110,7 +115,7 @@
 }
 
 #pragma mark - Core Data Saving support
-
+// 保存方法
 - (void)saveContext {
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
